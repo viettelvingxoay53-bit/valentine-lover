@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            background: linear-gradient(-45deg, #c19aae, #c198ad, #dab1ca, #cea4b7);
+            background-size: 400% 400%;
+            animation: bgMove 15s ease infinite;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(120deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.4) 50%,
+                    transparent 100%);
+            animation: shine 6s linear infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+
+        /* PASSWORD */
+        #login {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffd6ec, #ffe6f2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 999;
+            text-align: center;
+        }
+
+        #login h2 {
+            margin-bottom: 20px;
+            color: #ff1493;
+        }
+
+        #login input {
+            padding: 14px;
+            border-radius: 30px;
+            border: none;
+            text-align: center;
+            width: 220px;
+            background: white;
+        }
+
+        #login button {
+            margin-top: 15px;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 30px;
+            background: #ff4da6;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* SECTIONS */
+        section {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transform: scale(1.1);
+            transition: all .8s ease;
+        }
+
+        section.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #ff1493, #ff66cc, #ff1493);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 4s linear infinite, glowPulse 2s ease-in-out infinite alternate;
+        }
+
+        /* Gradient chạy trong chữ */
+        @keyframes textShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Glow nhịp đập */
+        @keyframes glowPulse {
+            from {
+                text-shadow:
+                    0 0 10px rgba(255, 20, 147, .6),
+                    0 0 20px rgba(255, 105, 180, .5),
+                    0 0 30px rgba(255, 20, 147, .4);
+            }
+
+            to {
+                text-shadow:
+                    0 0 20px rgba(255, 20, 147, .9),
+                    0 0 35px rgba(255, 105, 180, .7),
+                    0 0 50px rgba(255, 20, 147, .6);
+            }
+        }
+
+        .counter {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #ff1493;
+            text-shadow:
+                0 0 8px rgba(255, 20, 147, .5),
+                0 0 15px rgba(255, 105, 180, .4);
+        }
+
+
+        /* ALBUM */
+        .album {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 95%;
+            max-width: 1000px;
+            margin-top: 30px;
+        }
+
+
+        .photo {
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .photo img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            /* Ảnh ngang */
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, .4);
+            transition: .4s ease;
+        }
+
+
+        .photo p {
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .photo:hover img {
+            transform: scale(1.05);
+        }
+
+
+        /* LETTER */
+        .letter {
+            width: 90%;
+            max-width: 400px;
+            line-height: 1.6;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .nav div {
+            width: 10px;
+            height: 10px;
+            background: #ffcce6;
+            border-radius: 50%;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .nav div.active {
+            background: #ff1493;
+        }
+
+        /* LIGHT PARTICLES */
+        .light {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, white, rgba(255, 255, 255, 0));
+            border-radius: 50%;
+            opacity: .8;
+            filter: blur(1px);
+            animation: rise linear infinite;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+        @media(min-width:768px) {
+            .title {
+                font-size: 36px;
+            }
+        }
+
+        @media(max-width:768px) {
+            .album {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:480px) {
+            .album {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="login">
+        <h2>🔐 Nhập mật khẩu</h2>
+        <input type="password" id="pass" placeholder="070625">
+        <button onclick="checkPass()">Vào thế giới của chúng ta 💗</button>
+    </div>
+
+    <section class="active">
+        <div class="title">Vinh và Ly đã đi được với nhau</div>
+        <div class="counter" id="days"></div>
+    </section>
+
+    <section>
+        <div class="title">Câu chuyện của chúng ta</div>
+        <div class="letter">
+            Cảm ơn trip đi Trị An của lớp đã một lần nữa giúp Vinh với Ly về bên nhau, nghe hơi sến nhưng "Vạn vật muốn
+            ta bên nhau" 💖
+        </div>
+    </section>
+
+    <section>
+        <div class="title">Album kỷ niệm</div>
+        <div class="album">
+
+            <div class="photo">
+                <img src="./images/images/ảnh1.JPG">
+                <p>Đi đâu nhớ nghĩ đến việc có người đợi ở nhà nhé</p>
+            </div>
+
+            <div class="photo">
+                <img src="./images/images/ảnh2.JPEG">
+                <p>Nhớ thương em cả đời nha</p>
+            </div>
+
+            <div class="photo">
+                <img src="./images/images/IMG_5005.JPG">
+                <p>Khi gặp khó khăn đừng chọn vứt đi tình yêu nhé</p>
+            </div>
+
+            <div class="photo">
+                <img src="./images/images/IMG_5170.PNG">
+                <p>Hôn và ôm nhau thật nhiều mỗi khi gặp nhau nha</p>
+            </div>
+
+            <div class="photo">
+                <img src="./images/images/IMG_5238.JPG">
+                <p>Yêu mãi không chia tay nhé</p>
+            </div>
+
+            <div class="photo">
+                <img src="./images/images/IMG_5859.JPG">
+                <p>Đừng nói dối dù là chuyện nhỏ nhặt nhất nha</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+        <div class="title">Thư tay gửi Vinh iu</div>
+        <div class="letter">
+            Khi anh bước vào cuộc đời em, vào những ngày bất chợt mà em chưa sẵn sàng gì,
+            nhưng anh đã ở lại và nhẹ nhàng trao gửi những điều tử tế mà em từng mong.
+            Mục đích của việc yêu đương là để được hạnh phúc hơn khi độc thân.
+            Là có người thương, có người quan tâm, tủi thân có người dỗ, khi gặp chuyện có người ở bên cạnh động viên an
+            ủi.
+            Là khi làm gì cũng sẽ nghĩ đến điều tốt nhất cho đối phương.
+            Và là để đồng hành cùng nhau trong mọi khoảnh khắc của cuộc đời.
+            Cảm ơn vì đã xuất hiện trong cuộc đời này.
+            Cảm ơn vì đã yêu thương và kiên nhẫn.
+            Mong anh sẽ yêu được một người khiến anh không còn nghi ngờ gì về tình yêu nữa, và tất nhiên em đã xuất hiện
+            rồi đây.
+            Em sẽ luôn trân trọng từng ngày bên nhau.
+            Hy vọng những lần anh làm em khóc là đều vì anh khiến em cảm thấy hạnh phúc nha.
+        </div>
+    </section>
+
+    <div class="nav">
+        <div class="active" onclick="go(0)"></div>
+        <div onclick="go(1)"></div>
+        <div onclick="go(2)"></div>
+        <div onclick="go(3)"></div>
+    </div>
+
+    <audio id="music" loop>
+        <source src="./musich/vạn vật như muốn ta bên nhau.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+
+        let sections = document.querySelectorAll("section");
+        let dots = document.querySelectorAll(".nav div");
+        let current = 0;
+
+        function checkPass() {
+            if (document.getElementById("pass").value === "070625") {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("music").play();
+            } else alert("Sai mật khẩu 💔");
+        }
+
+        function go(index) {
+            sections[current].classList.remove("active");
+            dots[current].classList.remove("active");
+            current = index;
+            sections[current].classList.add("active");
+            dots[current].classList.add("active");
+        }
+
+        window.addEventListener("wheel", e => {
+            if (e.deltaY > 0 && current < sections.length - 1) go(current + 1);
+            if (e.deltaY < 0 && current > 0) go(current - 1);
+        });
+
+        /* COUNT DAYS REALTIME */
+        function updateDays() {
+            const startDate = new Date("2025-06-07T00:00:00");
+            const now = new Date();
+            const diff = now - startDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById("days").innerHTML = "💘 " + days + " ngày bên nhau 💘";
+        }
+        updateDays();
+        setInterval(updateDays, 60000);
+
+        /* LIGHT PARTICLES */
+        function light() {
+            const l = document.createElement("div");
+            l.classList.add("light");
+            l.style.left = Math.random() * 100 + "vw";
+            l.style.animationDuration = (Math.random() * 5 + 4) + "s";
+            document.body.appendChild(l);
+            setTimeout(() => l.remove(), 9000);
+        }
+        setInterval(light, 200);
+
+    </script>
+
+</body>
+
+</html>
